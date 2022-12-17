@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "830061755263",
+    "project_id": "rnfireebaseauth",
+    "storage_bucket": "rnfireebaseauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830061755263:android:18f48d86db5cbe7e10784a",
+        "android_client_info": {
+          "package_name": "com.documentsign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830061755263-t4b03ud0h20bih4sfngn4nun94fc2ebt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4HNVIk960fhMmj61G7aRxaWGxPUfk5rs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830061755263-t4b03ud0h20bih4sfngn4nun94fc2ebt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "830061755263-b8oqhklr5ai20ghrdofbenrj33q7d44s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.documentsign"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
