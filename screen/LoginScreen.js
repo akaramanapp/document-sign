@@ -17,7 +17,6 @@ import storage from '@react-native-firebase/storage';
 import {utils} from '@react-native-firebase/app';
 
 console.log(utils.FilePath.PICTURES_DIRECTORY);
-import {launchImageLibrary} from 'react-native-image-picker';
 
 const LoginScreen = ({navigation}) => {
   const [userEmail, setUserEmail] = useState('');
@@ -40,7 +39,7 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.mainBody}>
-      <ScrollView
+      <View
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flex: 1,
@@ -99,7 +98,7 @@ const LoginScreen = ({navigation}) => {
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };
