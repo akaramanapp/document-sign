@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, Button} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
@@ -8,6 +8,19 @@ export default function HomeScreen({navigation}) {
     navigation.navigate('LoginScreen');
   };
 
+  const [documents, setDocuments] = useState([]);
+
+  useEffect(() => {
+    firestore()
+      .collection('Documents')
+      .where('approvers', '==', [
+        {mail: auth().currentUser?.email, status: 'pending'},
+      ])
+      .get()
+      .then(querySnapshot => {
+        setDocuments(querySnapshot.docs.map(doc => doc.data()));
+      });
+  }, []);
 
   const add = () => {
     firestore()
@@ -53,7 +66,7 @@ export default function HomeScreen({navigation}) {
             height: 100,
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 20,
+            padding: 10,
             backgroundColor: '#fff',
             shadowColor: '#9575cd',
             shadowOpacity: 0.7,
@@ -64,8 +77,8 @@ export default function HomeScreen({navigation}) {
             },
             borderRadius: 10,
           }}>
-          <Text style={{fontSize: 30}}>30</Text>
-          <Button title="Detail"></Button>
+          <Text style={{fontSize: 30}}>{documents.length}</Text>
+          <Button title="Pending"></Button>
         </View>
         <View
           style={{
@@ -74,7 +87,7 @@ export default function HomeScreen({navigation}) {
             height: 100,
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 20,
+            padding: 10,
             backgroundColor: '#fff',
             shadowColor: '#9575cd',
             shadowOpacity: 0.7,

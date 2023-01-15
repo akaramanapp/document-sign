@@ -13,10 +13,6 @@ import {
 } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
-import {utils} from '@react-native-firebase/app';
-
-console.log(utils.FilePath.PICTURES_DIRECTORY);
 
 const LoginScreen = ({navigation}) => {
   const [userEmail, setUserEmail] = useState('');

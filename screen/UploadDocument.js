@@ -1,14 +1,17 @@
 import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import {Text, Card, Button } from '@rneui/themed';
+import {Text, Card, Button} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useState} from 'react';
+import {Input} from '@rneui/themed';
+import firestore from '@react-native-firebase/firestore';
 
 import storage from '@react-native-firebase/storage';
 
 export default function UploadDocument() {
   const [fileName, setFileName] = useState('');
-  const [file, setFile] = useState(undefined)
+  const [file, setFile] = useState(undefined);
+  const [mail, setMail] = useState('')
   const launchPhotoLibrary = () => {
     let options = {
       storageOptions: {
@@ -21,28 +24,48 @@ export default function UploadDocument() {
       if (data.didCancel) {
         return null;
       } else {
-        setFile(data.assets[0])
+        setFile(data.assets[0]);
         setFileName(data.assets[0].fileName);
       }
     });
   };
 
   const uploadFile = () => {
-      const reference = storage().ref(file.fileName);
-      const pathToFile = file.uri;
-      const task = reference.putFile(pathToFile);
+    const reference = storage().ref(file.fileName);
+    const pathToFile = file.uri;
+    const task = reference.putFile(pathToFile);
 
-      task.on('state_changed', taskSnapshot => {
-        if(taskSnapshot.state == 'success') {
-          setFile('')
-          setFileName(undefined)
-        }
-      });
+    task.on('state_changed', taskSnapshot => {
+      if (taskSnapshot.state == 'success') {
+        setFile('');
+        setFileName(undefined);
+        setMail('')
+        add()
+      }
+    });
 
-      task.catch(err => {
+    task.catch(err => {
+      alert(err);
+    });
+  };
+
+  const add = () => {
+    firestore()
+      .collection('Documents')
+      .add({
+        document: fileName,
+        approvers: [{
+          mail: mail,
+          status: 'pending'
+        }]
+      })
+      .then(() => {
+        alert('Document added!');
+      })
+      .catch(err => {
         alert(err);
       });
-  }
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -58,7 +81,12 @@ export default function UploadDocument() {
         </Text>
         <Button
           icon={
-            <Icon name="link" color="#ffffff" size={20} style={{marginRight: 10}} />
+            <Icon
+              name="link"
+              color="#ffffff"
+              size={20}
+              style={{marginRight: 10}}
+            />
           }
           buttonStyle={{
             margin: 10,
@@ -66,10 +94,21 @@ export default function UploadDocument() {
           title="Choose Document"
           onPress={launchPhotoLibrary}
         />
+        <Input
+          value={mail}
+          onChangeText={value => setMail(value.toLowerCase())}
+          placeholder="E-MAIL"
+          leftIcon={{type: 'font-awesome', name: 'envelope'}}
+        />
         <Button
           color={'success'}
           icon={
-            <Icon name="upload" color="#ffffff" size={20} style={{marginRight: 10}} />
+            <Icon
+              name="upload"
+              color="#ffffff"
+              size={20}
+              style={{marginRight: 10}}
+            />
           }
           buttonStyle={{
             margin: 10,

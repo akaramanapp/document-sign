@@ -28,8 +28,8 @@ function App() {
           options={{
             headerShown: false,
           }}
-          name="UploadDocument"
-          component={UploadDocument}
+          name="HomeScreen"
+          component={HomeScreen}
         />
         {/* <Stack.Screen
           options={{
